@@ -19,6 +19,20 @@ const config = require("./config.json");
 
 
 //
+function getMee6Player(server, user, page=0) {
+    return fetch(`https://mee6.xyz/api/plugins/levels/leaderboard/${server}?limit=100&page=${page}`)
+    .then(x => x.json())
+    .then(x => {
+        const search = x.players.filter(p => p.id === user);
+        if (search.length > 0) {
+            return search[0];
+        }
+        return getMee6Player(server, user, ++page);
+    });
+}
+
+
+//
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -26,10 +40,9 @@ client.on("ready", () => {
 client.on("message", (msg) => {
     if (msg.channel.id === CHANNEL_BOTSPAM || CATEGORY_TESTING.includes(msg.channel.parentID)) {
         if (msg.content.startsWith(">prestige")) {
-            fetch(`https://mee6.xyz/api/plugins/levels/leaderboard/${SERVER_THEEYE}?limit=900`)
-            .then(x => x.json())
+            getMee6Player(SERVER_THEEYE, msg.author.id)
             .then(x => {
-                const xp = x.players.filter(p => p.id === msg.author.id)[0].xp;
+                const xp = x.xp;
                 const progress = xp / XP_PER_PRESTIGE;
                 const prestiges = parseInt(progress);
                 const canPrestige = prestiges > 0;
