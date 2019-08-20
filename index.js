@@ -51,7 +51,8 @@ client.on("message", (msg) => {
         msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges. You are ${(progress*100).toFixed(1)}% of the way there!`+(canPrestige?" Click the 🍆 to activate.":""))
         .then(m => { if (canPrestige) m.react("🍆"); });
     })
-    .catch(() => {
+    .catch((reason) => {
+        console.log(reason);
         msg.react("⛏");
     });
 });
