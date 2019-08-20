@@ -20,20 +20,6 @@ let mostRecentMee6Request = 0;
 
 
 //
-function getMee6Player(server, user, page=0) {
-    return fetch(`https://mee6.xyz/api/plugins/levels/leaderboard/${server}?limit=100&page=${page}`)
-    .then(x => x.json())
-    .then(x => {
-        const search = x.players.filter(p => p.id === user);
-        if (search.length > 0) {
-            return search[0];
-        }
-        return getMee6Player(server, user, ++page);
-    });
-}
-
-
-//
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -50,9 +36,15 @@ client.on("message", (msg) => {
         return;
     }
     mostRecentMee6Request = Date.now();
-    getMee6Player(SERVER_THEEYE, msg.author.id)
+    fetch(`https://mee6.xyz/api/plugins/levels/leaderboard/${server}?limit=500`)
+    .then(x => x.json())
     .then(x => {
-        const xp = x.xp;
+        const search = x.players.filter(p => p.id === user);
+        if (search.length === 0) {
+            msg.reply("couldn't you in the list. Your XP may be to low to check.");
+            return;
+        }
+        const xp = search[0].xp;
         const progress = xp / XP_PER_PRESTIGE;
         const prestiges = parseInt(progress);
         const canPrestige = prestiges > 0;
