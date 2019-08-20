@@ -38,19 +38,21 @@ client.on("ready", () => {
 });
 
 client.on("message", (msg) => {
-    if (msg.channel.id === CHANNEL_BOTSPAM || CATEGORY_TESTING.includes(msg.channel.parentID)) {
-        if (msg.content.startsWith(">prestige")) {
-            getMee6Player(SERVER_THEEYE, msg.author.id)
-            .then(x => {
-                const xp = x.xp;
-                const progress = xp / XP_PER_PRESTIGE;
-                const prestiges = parseInt(progress);
-                const canPrestige = prestiges > 0;
-                msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges. You are ${(progress*100).toFixed(1)}% of the way there!`+(canPrestige?" Click the 🍆 to activate.":""))
-                .then(m => { if (canPrestige) m.react("🍆"); });
-            });
-        }
+    if (msg.channel.id !== CHANNEL_BOTSPAM && !CATEGORY_TESTING.includes(msg.channel.parentID)) {
+        return;
     }
+    if (!msg.content.startsWith(">prestige")) {
+        return;
+    }
+    getMee6Player(SERVER_THEEYE, msg.author.id)
+    .then(x => {
+        const xp = x.xp;
+        const progress = xp / XP_PER_PRESTIGE;
+        const prestiges = parseInt(progress);
+        const canPrestige = prestiges > 0;
+        msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges. You are ${(progress*100).toFixed(1)}% of the way there!`+(canPrestige?" Click the 🍆 to activate.":""))
+        .then(m => { if (canPrestige) m.react("🍆"); });
+    });
 });
 
 client.on("messageReactionAdd", (reaction, user) => {
