@@ -46,7 +46,7 @@ client.on("message", (msg) => {
         return;
     }
     if (Date.now() - mostRecentMee6Request < 1000*10) {
-        reaction.message.react("❌");
+        msg.react("❌");
         return;
     }
     mostRecentMee6Request = Date.now();
