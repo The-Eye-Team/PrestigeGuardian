@@ -41,30 +41,23 @@ client.on("message", (msg) => {
 });
 
 client.on("messageReactionAdd", (reaction, user) => {
-    if (reaction.message.author.id === USER_PRESTIGEBOT) {
-        if (reaction.emoji.name === "🍆") {
-            if (user.id === reaction.message.mentions.members.array()[0].id) {
-                if (reaction.users.has(USER_PRESTIGEBOT)) {
-                    const reg = /for [\d] prestiges/g;
-                    const search = reaction.message.content.match(reg);
-                    if (search.length === 0) {
-                        return
-                    }
-                    const prestiges = parseInt(search[0].split(" ")[1]);
-                    if (prestiges > 0) {
-                        if (Date.now() - reaction.message.createdAt.getTime() < 1000*60) {
-                            reaction.message.delete();
-                            reaction.message.channel.send(`Prestige request sent <@!${user.id}>!`);
-                            reaction.message.guild.channels.find(c => c.id === CHANNEL_LOGSBOTS).send(`<@!${USER_501}>, <@!${user.id}> is eligible for **${prestiges}** prestiges.`);
-                        }
-                        else {
-                            reaction.message.clearReactions();
-                            reaction.message.react("❌");
-                        }
-                    }
-                }
-            }
-        }
+    if (reaction.message.author.id !== USER_PRESTIGEBOT) { return; }
+    if (reaction.emoji.name !== "🍆") { return; }
+    if (user.id !== reaction.message.mentions.members.array()[0].id) { return; }
+    if (!reaction.users.has(USER_PRESTIGEBOT)) { return; }
+    const reg = /for [\d] prestiges/g;
+    const search = reaction.message.content.match(reg);
+    if (search.length === 0) { return; }
+    const prestiges = parseInt(search[0].split(" ")[1]);
+    if (prestiges === 0) { return; }
+    if (Date.now() - reaction.message.createdAt.getTime() < 1000*60) {
+        reaction.message.delete();
+        reaction.message.channel.send(`Prestige request sent <@!${user.id}>!`);
+        reaction.message.guild.channels.find(c => c.id === CHANNEL_LOGSBOTS).send(`<@!${USER_501}>, <@!${user.id}> is eligible for **${prestiges}** prestiges.`);
+    }
+    else {
+        reaction.message.clearReactions();
+        reaction.message.react("❌");
     }
 });
 
