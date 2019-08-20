@@ -39,7 +39,7 @@ client.on("message", (msg) => {
     fetch(`https://mee6.xyz/api/plugins/levels/leaderboard/${SERVER_THEEYE}?limit=500`)
     .then(x => x.json())
     .then(x => {
-        const search = x.players.filter(p => p.id === user);
+        const search = x.players.filter(p => p.id === msg.author.id);
         if (search.length === 0) {
             msg.reply("couldn't you in the list. Your XP may be to low to check.");
             return;
