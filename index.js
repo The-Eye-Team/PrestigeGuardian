@@ -36,7 +36,7 @@ client.on("message", (msg) => {
         return;
     }
     mostRecentMee6Request = Date.now();
-    fetch(`https://mee6.xyz/api/plugins/levels/leaderboard/${server}?limit=500`)
+    fetch(`https://mee6.xyz/api/plugins/levels/leaderboard/${SERVER_THEEYE}?limit=500`)
     .then(x => x.json())
     .then(x => {
         const search = x.players.filter(p => p.id === user);
