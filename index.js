@@ -52,7 +52,7 @@ client.on("message", (msg) => {
         .then(m => { if (canPrestige) m.react("🍆"); });
     })
     .catch(() => {
-        msg.react("⚠️");
+        msg.react("⛏");
     });
 });
 
