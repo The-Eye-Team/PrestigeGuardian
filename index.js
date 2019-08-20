@@ -46,7 +46,11 @@ client.on("messageReactionAdd", (reaction, user) => {
             if (user.id === reaction.message.mentions.members.array()[0].id) {
                 if (reaction.users.has(USER_PRESTIGEBOT)) {
                     const reg = /for [\d] prestiges/g;
-                    const prestiges = parseInt(reaction.message.content.match(reg)[0].split(" ")[1]);
+                    const search = reaction.message.content.match(reg);
+                    if (search.length === 0) {
+                        return
+                    }
+                    const prestiges = parseInt(search[0].split(" ")[1]);
                     if (prestiges > 0) {
                         if (Date.now() - reaction.message.createdAt.getTime() < 1000*60) {
                             reaction.message.delete();
