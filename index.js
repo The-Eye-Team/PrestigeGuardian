@@ -54,7 +54,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                     if (prestiges > 0) {
                         if (Date.now() - reaction.message.createdAt.getTime() < 1000*60) {
                             reaction.message.delete();
-                            reaction.message.channel.send("Prestige request sent!");
+                            reaction.message.channel.send(`Prestige request sent <@!${user.id}>!`);
                             reaction.message.guild.channels.find(c => c.id === CHANNEL_LOGSBOTS).send(`<@!${USER_501}>, <@!${user.id}> is eligible for **${prestiges}** prestiges.`);
                         }
                         else {
