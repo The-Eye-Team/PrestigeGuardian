@@ -16,6 +16,7 @@ const XP_PER_PRESTIGE = 42000;
 
 //
 const config = require("./config.json");
+let mostRecentMee6Request = 0;
 
 
 //
@@ -44,6 +45,11 @@ client.on("message", (msg) => {
     if (!msg.content.startsWith(">prestige")) {
         return;
     }
+    if (Date.now() - mostRecentMee6Request < 1000*10) {
+        reaction.message.react("❌");
+        return;
+    }
+    mostRecentMee6Request = Date.now();
     getMee6Player(SERVER_THEEYE, msg.author.id)
     .then(x => {
         const xp = x.xp;
