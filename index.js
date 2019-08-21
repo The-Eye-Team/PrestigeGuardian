@@ -27,6 +27,7 @@ client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
+// prestige xp check request
 client.on("message", (msg) => {
     if (msg.channel.id !== CHANNEL_BOTSPAM && !CATEGORY_TESTING.includes(msg.channel.parentID)) {
         return;
@@ -60,6 +61,7 @@ client.on("message", (msg) => {
     });
 });
 
+// user approval to send prestige request
 client.on("messageReactionAdd", (reaction, user) => {
     if (reaction.message.author.id !== USER_PRESTIGEBOT) {
         return;
