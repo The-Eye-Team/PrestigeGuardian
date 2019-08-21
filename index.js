@@ -3,6 +3,9 @@ const fetch = require("node-fetch");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+const TIME_SECOND = 1000;
+const TIME_MINUTE = TIME_SECOND*60;
+
 
 //
 const SERVER_THEEYE = "302796547656253441";
@@ -79,7 +82,7 @@ client.on("messageReactionAdd", (reaction, user) => {
     if (prestiges === 0) {
         return;
     }
-    if (Date.now() - reaction.message.createdAt.getTime() > 1000*60) {
+    if (Date.now() - reaction.message.createdAt.getTime() > TIME_MINUTE) {
         reaction.message.clearReactions();
         reaction.message.react("❌");
         return;
