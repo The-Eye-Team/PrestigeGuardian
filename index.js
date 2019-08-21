@@ -41,7 +41,7 @@ client.on("message", (msg) => {
     .then(x => {
         const search = x.players.filter(p => p.id === msg.author.id);
         if (search.length === 0) {
-            msg.reply("couldn't you in the list. Your XP may be to low to check.");
+            msg.reply("I couldn't find you in the list. Your XP may be too low to check.");
             return;
         }
         const xp = search[0].xp;
