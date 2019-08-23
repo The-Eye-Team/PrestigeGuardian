@@ -15,6 +15,7 @@ const CHANNEL_BOTSPAM = "309583544777179137";
 const CHANNEL_LOGSBOTS = "539266437928321024";
 const CATEGORY_TESTING = ["360860654573322252","510381250117238795"];
 const XP_PER_PRESTIGE = 42000;
+const EMOTE_EGGPLANT = "🍆";
 
 
 //
@@ -53,8 +54,8 @@ client.on("message", (msg) => {
         const prestiges = parseInt(progress);
         const canPrestige = prestiges > 0;
         msg.delete();
-        msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges. You are ${(progress*100).toFixed(1)}% of the way there!`+(canPrestige?" Click the 🍆 to activate.":""))
-        .then(m => { if (canPrestige) m.react("🍆"); });
+        msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges. You are ${(progress*100).toFixed(1)}% of the way there!`+(canPrestige?` Click the ${EMOTE_EGGPLANT} to activate.`:""))
+        .then(m => { if (canPrestige) m.react(EMOTE_EGGPLANT); });
     })
     .catch((reason) => {
         console.log(reason);
@@ -67,7 +68,7 @@ client.on("messageReactionAdd", (reaction, user) => {
     if (reaction.message.author.id !== USER_PRESTIGEBOT) {
         return;
     }
-    if (reaction.emoji.name !== "🍆") {
+    if (reaction.emoji.name !== EMOTE_EGGPLANT) {
         return;
     }
     if (user.id !== reaction.message.mentions.members.array()[0].id) {
