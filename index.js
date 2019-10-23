@@ -54,7 +54,7 @@ client.on("message", (msg) => {
         const prestiges = parseInt(progress);
         const canPrestige = prestiges > 0;
         msg.delete();
-        msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges. You are ${(progress*100).toFixed(1)}% of the way there!`+(canPrestige?` Click the ${EMOTE_EGGPLANT} to activate.`:""))
+        msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges.`+(canPrestige?` Click the ${EMOTE_EGGPLANT} to activate.`:""))
         .then(m => { if (canPrestige) m.react(EMOTE_EGGPLANT); });
     })
     .catch((reason) => {
