@@ -50,8 +50,8 @@ client.on("message", (msg) => {
         }
         const xp = search[0].xp;
         let prestiges = 0;
-        if (xp > 42_000) { prestiges += 1; }
-        if (xp > 94_095) { prestiges += 1; }
+        if (xp > 42000) { prestiges += 1; }
+        if (xp > 94095) { prestiges += 1; }
         const canPrestige = prestiges > 0;
         msg.delete();
         msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges.`+(canPrestige?` Click the ${EMOTE_EGGPLANT} to activate.`:""))
