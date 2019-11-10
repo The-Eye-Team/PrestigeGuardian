@@ -49,12 +49,11 @@ client.on("message", (msg) => {
             return;
         }
         const xp = search[0].xp;
-        let prestiges = 0;
-        if (xp > 42000) { prestiges += 1; }
-        if (xp > 94095) { prestiges += 1; }
+        const percent = (xp/42000).toFixed(3);
+        const prestiges = percent.split(".")[0] === "0" ? 0 : 1;
         const canPrestige = prestiges > 0;
         msg.delete();
-        msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges.`+(canPrestige?` Click the ${EMOTE_EGGPLANT} to activate.`:""))
+        msg.reply(`You have ${xp} XP and are eligible for ${prestiges} prestiges. You are ${percent}% of the way there!`+(canPrestige?` Click the ${EMOTE_EGGPLANT} to activate.`:""))
         .then(m => { if (canPrestige) m.react(EMOTE_EGGPLANT); });
     })
     .catch((reason) => {
