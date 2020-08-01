@@ -27,6 +27,11 @@ client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
+// don't crash when errors happen
+client.on("error", (err) => {
+    console.error("error:", err);
+});
+
 // prestige xp check request
 client.on("message", (msg) => {
     if (msg.channel.id !== CHANNEL_BOTSPAM && !CATEGORY_TESTING.includes(msg.channel.parentID)) {
